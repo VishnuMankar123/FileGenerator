@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 20px;
+        }
+        .summary {
+            margin-bottom: 30px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .summary-item {
+            margin-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            font-size: 12px;
+            color: #666;
+        }
+        .text-right {
+            text-align: right;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="header">
+    <h1 th:text="${reportData.reportTitle}">Employee Salary Report</h1>
+    <p>Generated on: <span th:text="${reportData.generatedDate}"></span></p>
+</div>
+
+<div class="summary">
+    <h3>Report Summary</h3>
+    <div class="summary-item">
+        <strong>Total Employees:</strong>
+        <span th:text="${reportData.summary.totalEmployees}"></span>
+    </div>
+    <div class="summary-item">
+        <strong>Total Salary:</strong>
+        $<span th:text="${#numbers.formatDecimal(reportData.summary.totalSalary, 1, 2)}"></span>
+    </div>
+    <div class="summary-item">
+        <strong>Average Salary:</strong>
+        $<span th:text="${#numbers.formatDecimal(reportData.summary.averageSalary, 1, 2)}"></span>
+    </div>
+</div>
+
+<h3>Employee Details</h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Department</th>
+        <th>Email</th>
+        <th class="text-right">Salary</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${reportData.employees}">
+        <td th:text="${employee.id}"></td>
+        <td th:text="${employee.name}"></td>
+        <td th:text="${employee.department}"></td>
+        <td th:text="${employee.email}"></td>
+        <td class="text-right">$<span th:text="${#numbers.formatDecimal(employee.salary, 1, 2)}"></span></td>
+    </tr>
+    </tbody>
+</table>
+
+<div class="footer">
+    <p>This report was generated automatically on <span th:text="${reportData.generatedDate}"></span></p>
+    <p>© 2024 Company Name. All rights reserved.</p>
+</div>
+</body>
+</html>
